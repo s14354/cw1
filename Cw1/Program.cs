@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Cw1
 {
@@ -13,11 +14,10 @@ namespace Cw1
             var response = await httpClient.GetAsync(args[0]);
             if (response.IsSuccessStatusCode) {
                 var body = await response.Content.ReadAsStringAsync();
-                var words = body.Split(' ');
-                foreach (String word in words)
-                {
-                    if (word.Contains('@'))
-                        System.Console.Out.WriteLine(word);
+                var regex = new Regex("[a-z0-9]+@[a-z0-9]+\\.[a-z]+",RegexOptions.IgnoreCase);
+                var matches = regex.Matches(body);
+                foreach (var email in matches) {
+                    Console.WriteLine(email);
                 }
             }
         }
