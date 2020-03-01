@@ -11,12 +11,14 @@ namespace Cw1
         {
             var httpClient = new HttpClient();
             var response = await httpClient.GetAsync(args[0]);
-            var body = await response.Content.ReadAsStringAsync();
-            var words = body.Split(' ');
-            foreach(String word in words)
-            {
-                if (word.Contains('@'))
-                    System.Console.Out.WriteLine(word);
+            if (response.IsSuccessStatusCode) {
+                var body = await response.Content.ReadAsStringAsync();
+                var words = body.Split(' ');
+                foreach (String word in words)
+                {
+                    if (word.Contains('@'))
+                        System.Console.Out.WriteLine(word);
+                }
             }
         }
     }
